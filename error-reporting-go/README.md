@@ -23,3 +23,27 @@ error-reporting-go
   - ソースコードへの参照は機能するが、直前の Stackdriver Debugging で見てるサービスが一致していないとソースツリーが意図しないものになりそう
 
 ## GAE Flex Environment
+- panic 拾ってくれない
+- 他の stderr への書き込みも拾わない気がする...
+- クライアントライブラリ使って送信するのは当然拾ってくれる
+  - クライアントによる送信は自動で有効になってない、同様に有効にしないといけない
+
+> App Engine は、デフォルトで Error Reporting 書き込み役割を付与します。
+> 注: stderr に書き込まれたエラーログは、Go 用 Stackdriver Error Reporting パッケージを直接使用しなくても、Error Reporting によって自動的に処理されます。
+[Go 用の Error Reporting の設定  |  Stackdriver Error Reporting  |  Google Cloud](https://cloud.google.com/error-reporting/docs/setup/go?hl=ja)
+
+とは一体......
+
+TODO 構造化してみる
+
+```json
+{
+  "message": stacktrace
+}
+```
+
+
+### いまのところ
+
+- アプリケーションプロセスが死んだりすれば拾ってくれる
+- Stderr をそのまま解釈してくれたりはしない気がする...
