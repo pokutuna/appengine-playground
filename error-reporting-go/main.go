@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+	// list endpoints
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		m := reflect.ValueOf(http.DefaultServeMux).Elem().FieldByName("m")
 
@@ -54,7 +55,7 @@ func main() {
 	})
 
 	http.HandleFunc("/errorreporting", func(w http.ResponseWriter, r *http.Request) {
-		projectID := "pokutuna-dev"
+		projectID := "pokutuna-playground"
 		errorClient, err := errorreporting.NewClient(context.Background(), projectID, errorreporting.Config{
 			ServiceName: "error-reporting-go",
 		})
