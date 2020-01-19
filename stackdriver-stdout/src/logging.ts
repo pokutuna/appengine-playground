@@ -59,7 +59,7 @@ router.get('/special-fields/trace', (req: Request, res: Response) => {
   res.json(payload);
 });
 
-// 4. log with severity
+// 3-2. log with severity
 // this outputs a log entry marked with "i" icon
 //   jsonPayload: { ary: [3], headers: { ... } }
 //   severity: "INFO"
@@ -69,5 +69,12 @@ router.get('/special-fields/severity', (req: Request, res: Response) => {
     ...getMessage(req),
   };
   console.log(JSON.stringify(payload));
+  res.json(payload);
+});
+
+// 4. console.error(JSON.stringify(obj))
+router.get('/stderr', (req: Request, res: Response) => {
+  const payload = getMessage(req);
+  console.error(JSON.stringify(payload));
   res.json(payload);
 });
