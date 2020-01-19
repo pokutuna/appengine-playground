@@ -1,0 +1,22 @@
+{
+  "devDependencies": {
+    "@types/node": "^10.0.3",
+    "gts": "^1.1.2",
+    "typescript": "~3.7.0"
+  },
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node build/src/index.js",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc -p .",
+    "fix": "gts fix",
+    "prepare": "yarn run compile",
+    "pretest": "yarn run compile",
+    "posttest": "yarn run check"
+  },
+  "license": "UNLICENSED"
+}
