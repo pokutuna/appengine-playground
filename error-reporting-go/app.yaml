@@ -1,10 +1,2 @@
-runtime: go1.12
-env: flex
+runtime: go113
 service: error-reporting-go
-
-manual_scaling:
-  instances: 1
-resources:
-  cpu: 2
-  memory_gb: 2
-  disk_size_gb: 10

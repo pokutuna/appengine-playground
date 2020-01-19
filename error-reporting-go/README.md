@@ -1,6 +1,16 @@
 error-reporting-go
 ===
 
+- json の message フィールドに stacktrace を入れれば拾ってくれる
+  - stack_trace, exception, message の優先順位
+- stacktrace でなくても以下の構造を含めたら ErroReporting へ送れる
+  - `{ "@type": "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent", ... }`
+  - https://cloud.google.com/error-reporting/reference/rest/v1beta1/projects.events/report#ReportedErrorEvent
+- stderr に stacktrace を書くだけでは拾ってくれない
+  - きく
+
+---
+
 ## GAE Standard Environment
 
 - panic でアプリケーションコンテナ自体が異常終了したら拾ってくれる

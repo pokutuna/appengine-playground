@@ -6,3 +6,6 @@ go.mod go.sum main.go:
 .PHONY: deploy
 deploy: go.mod go.sum main.go
 	$(GCLOUD) app deploy
+
+clean:
+	$(RM) go.mod go.sum main.goma
