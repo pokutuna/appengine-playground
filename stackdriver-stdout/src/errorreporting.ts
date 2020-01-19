@@ -10,7 +10,8 @@ router.get('/raw', (req: Request, res: Response) => {
   throw new Error('jsut throw a error!');
 });
 
-// 2. print trace (not collected)
+// 2. print trace (NOT collected)
+// I guess the stacktrace ErrorReporting collectable must start with "Error: "
 router.get('/trace', (req: Request, res: Response) => {
   console.trace('console.trace()!');
   res.status(500).send('trace');
@@ -43,6 +44,21 @@ router.get('/formatting/json', (req: Request, res: Response) => {
     '@type':
       'type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent',
     [prop]: err.stack,
+  };
+  console.error(JSON.stringify(payload));
+  res.status(500).json(payload);
+});
+
+// 4-ex. print a json with @type field without stacktrace (collected)
+// On the console of ErrorReporting, this causes a error but "No parsed stack trace available"
+router.get('/formatting/json/without-stacktrace', (req: Request, res: Response) => {
+  // stack_trace, exception, message
+  const prop = req.query.prop || 'message';
+
+  const payload: any = {
+    '@type': 'type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent',
+    [prop]: "this is not a stacktrace",
+    headers: req.headers,
   };
   console.error(JSON.stringify(payload));
   res.status(500).json(payload);
