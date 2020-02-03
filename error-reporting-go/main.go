@@ -13,6 +13,7 @@ import (
 
 	"cloud.google.com/go/errorreporting"
 	"github.com/pkg/errors"
+	"golang.org/x/xerrors"
 )
 
 var projectID = "pokutuna-playground"
@@ -58,6 +59,15 @@ func main() {
 	// NOT collected
 	http.HandleFunc("/github.com/pkg/errors", func(w http.ResponseWriter, r *http.Request) {
 		err := errors.New("uwaaaa")
+
+		w.WriteHeader(http.StatusInternalServerError)
+		mw := io.MultiWriter(w, os.Stderr)
+		fmt.Fprintf(mw, "%+v", err)
+	})
+
+	// NOT collected
+	http.HandleFunc("/golang.org/x/xerrors", func(w http.ResponseWriter, r *http.Request) {
+		err := xerrors.New("xerrors")
 
 		w.WriteHeader(http.StatusInternalServerError)
 		mw := io.MultiWriter(w, os.Stderr)
@@ -131,6 +141,22 @@ func main() {
 		output, _ := json.Marshal(payload)
 		fmt.Fprintf(mw, "%s\n", output)
 	})
+
+// collected, stacktrace not analyzed, but "Raw" shows "stack_trace" field
+http.HandleFunc("/json/with-xerrors", func(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusInternalServerError)
+	mw := io.MultiWriter(w, os.Stderr)
+
+	err := xerrors.New("made by xerrors")
+
+	payload := map[string]interface{}{
+		"@type":   "type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent",
+		"message": "hello",
+		"stack_trace": fmt.Sprintf("%+v", err)
+	}
+	output, _ := json.Marshal(payload)
+	fmt.Fprintf(mw, "%s\n", output)
+})
 
 	// collected, stacktrace is not available
 	http.HandleFunc("/json/with-type/not-stacktrace", func(w http.ResponseWriter, r *http.Request) {
