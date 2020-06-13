@@ -2,9 +2,12 @@ runtime: nodejs10
 service: nextjs
 
 handlers:
-  - url: /robots.txt
-    static_files: public/robots.txt
-    upload: public/robots.txt
+  - url: /(.*\.(gif|png|jpg|ico|svg|txt))$
+    static_files: public/\1
+    upload: public/.*\.(gif|png|jpg|ico|svg|txt)$
+
+  - url: /_next/static
+    static_dir: .next/static
 
   - url: /.*
     script: auto
