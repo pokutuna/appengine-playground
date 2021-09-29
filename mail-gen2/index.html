@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>email test</title>
+    <style>
+      body {
+        margin: 2em;
+      }
+      input, textarea {
+        display: block;
+        width: 30em;
+        margin-bottom: 0.5em;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>using google.golang.org/appengine/v2/mail</h1>
+
+    <form method="POST" action="/post">
+      <input type="text" name="to" value="To: pokutuna&lt;mail@pokutuna.com&gt;" readonly disabled />
+      <input type="text" name="subject" placeholder="subject" />
+      <textarea name="body" placeholder="message body"></textarea>
+      <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>
